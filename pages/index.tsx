@@ -14,7 +14,7 @@ function getOrigins() {
         : origin
     );
 
-  return [/^http:\/\/localhost:/, ...origins];
+  return [origins];
 }
 
 export default function Home() {
