@@ -3,12 +3,23 @@ import Cors from 'cors';
 
 // const REGEX_PREFIX = 'regex:';
 
-function getOrigins() {
-  return ["draw.qrku.net","localhost:3000","http://localhost:3000","http://draw.qrku.net","https://draw.qrku.net"];
-}
+// function getOrigins() {
+//   const origins = (process.env.EXCALIDRAW_ALLOWED_ORIGIN ?? '')
+//     .trim()
+//     .split(',')
+//     .map((origin) => origin.trim())
+//     .filter(Boolean)
+//     .map((origin) =>
+//       origin.startsWith(REGEX_PREFIX)
+//         ? new RegExp(origin.slice(REGEX_PREFIX.length))
+//         : origin,
+//     );
+
+//   return ["https://draw.qrku.net", ...origins];
+// }
 
 const cors = Cors({
-  origin: getOrigins(),
+  origin: '*',
   methods: ['GET', 'HEAD', 'POST'],
 });
 
@@ -25,8 +36,6 @@ export function corsMiddleware<
   res: NextApiResponse<Response>,
 ) => ReturnType<NextApiHandler> {
   return async (req, res) => {
-    const origin = getOrigins();
-    console.log(origin);
     await new Promise<void>((resolve, reject) => {
       cors(
         // @ts-ignore
@@ -34,7 +43,6 @@ export function corsMiddleware<
         res,
         (result: Error) => {
           if (result) {
-            console.log(result);
             return reject(result);
           }
           resolve();
