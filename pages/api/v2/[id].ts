@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse, PageConfig } from 'next';
 import { notFound } from '@hapi/boom';
 
-import { corsMiddleware } from '../../../src/server/corsMiddleware';
+// import { corsMiddleware } from '../../../src/server/corsMiddleware';
 import { errorMiddleware } from '../../../src/server/errorMiddleware';
 import { httpMethodRouter } from '../../../src/server/httpMethodRouter';
 import { get } from '../../../src/server/s3';
@@ -13,7 +13,7 @@ export const config: PageConfig = {
 };
 
 export default errorMiddleware(
-  corsMiddleware(
+  // corsMiddleware(
     httpMethodRouter({
       GET: async (
         req: NextApiRequest & { query: { id: string } },
@@ -32,5 +32,5 @@ export default errorMiddleware(
         res.status(200).send(drawing);
       },
     }),
-  ),
+  // ),
 );

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse, PageConfig } from 'next';
 import getRawBody from 'raw-body';
 
-import { corsMiddleware } from '../../../src/server/corsMiddleware';
+// import { corsMiddleware } from '../../../src/server/corsMiddleware';
 import { errorMiddleware } from '../../../src/server/errorMiddleware';
 import { httpMethodRouter } from '../../../src/server/httpMethodRouter';
 import { makeHash } from '../../../src/server/makeHash';
@@ -26,7 +26,7 @@ export const config: PageConfig = {
 };
 
 export default errorMiddleware(
-  corsMiddleware(
+  // corsMiddleware(
     httpMethodRouter({
       POST: async (req: NextApiRequest, res: NextApiResponse) => {
         // See https://github.com/excalidraw/excalidraw-json/blob/040e45b/main/api/v2/hash.py#L16-L32
@@ -47,5 +47,5 @@ export default errorMiddleware(
         res.status(200).json({ id, data: makeAbsoluteUrl(req, id) });
       },
     }),
-  ),
+  // ),
 );
