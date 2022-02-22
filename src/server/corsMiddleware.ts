@@ -15,7 +15,7 @@ function getOrigins() {
         : origin,
     );
 
-  return [/^http:\/\/localhost:/, ...origins];
+  return ["https://draw.qrku.net", ...origins];
 }
 
 const cors = Cors({
@@ -36,6 +36,9 @@ export function corsMiddleware<
   res: NextApiResponse<Response>,
 ) => ReturnType<NextApiHandler> {
   return async (req, res) => {
+    const origin = getOrigins();
+    console.log(origin);
+    // console.log(cors);
     await new Promise<void>((resolve, reject) => {
       cors(
         // @ts-ignore
@@ -43,13 +46,17 @@ export function corsMiddleware<
         res,
         (result: Error) => {
           if (result) {
+            console.log(result);
             return reject(result);
           }
+          // console.log(resolve);
           resolve();
         },
       );
     });
 
+    // console.log(req);
+    // console.log(res);
     return fn(req, res);
   };
 }

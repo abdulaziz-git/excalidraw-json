@@ -1,26 +1,7 @@
-import Head from 'next/head';
-
-const REGEX_PREFIX = "regex:";
-
-function getOrigins() {
-  const origins = (process.env.EXCALIDRAW_ALLOWED_ORIGIN ?? "")
-    .trim()
-    .split(",")
-    .map((origin) => origin.trim())
-    .filter(Boolean)
-    .map((origin) =>
-      origin.startsWith(REGEX_PREFIX)
-        ? new RegExp(origin.slice(REGEX_PREFIX.length))
-        : origin
-    );
-
-  return [origins];
-}
+import Head from 'next/head'
 
 export default function Home() {
-  const origins = getOrigins();
   return (
-    console.log(origins),
     <div className="container">
       <Head>
         <title>Create Next App</title>
