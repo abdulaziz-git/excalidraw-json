@@ -20,6 +20,7 @@ function getOrigins() {
 
 const cors = Cors({
   origin: getOrigins(),
+  methods: ['GET', 'HEAD', 'POST'],
 });
 
 export function corsMiddleware<
