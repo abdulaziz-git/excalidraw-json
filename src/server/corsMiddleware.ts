@@ -1,21 +1,10 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import Cors from 'cors';
 
-const REGEX_PREFIX = 'regex:';
+// const REGEX_PREFIX = 'regex:';
 
 function getOrigins() {
-  const origins = (process.env.EXCALIDRAW_ALLOWED_ORIGIN ?? '')
-    .trim()
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean)
-    .map((origin) =>
-      origin.startsWith(REGEX_PREFIX)
-        ? new RegExp(origin.slice(REGEX_PREFIX.length))
-        : origin,
-    );
-
-  return ["https://draw.qrku.net", ...origins];
+  return ["draw.qrku.net","localhost:3000","http://localhost:3000","http://draw.qrku.net","https://draw.qrku.net"];
 }
 
 const cors = Cors({
@@ -38,7 +27,6 @@ export function corsMiddleware<
   return async (req, res) => {
     const origin = getOrigins();
     console.log(origin);
-    // console.log(cors);
     await new Promise<void>((resolve, reject) => {
       cors(
         // @ts-ignore
@@ -49,14 +37,11 @@ export function corsMiddleware<
             console.log(result);
             return reject(result);
           }
-          // console.log(resolve);
           resolve();
         },
       );
     });
 
-    // console.log(req);
-    // console.log(res);
     return fn(req, res);
   };
 }
